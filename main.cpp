@@ -35,6 +35,11 @@ void benchmarkVectorSine()
 
     timer.start();
     for (size_t i = 0; i < numIterations; ++i)
+        vectorSineEve(input, output, vectorLength);
+    std::cout << "EVE: " << timer.stop().elapsed() << " (sec), output[1]: " << output[1] << "\n";
+
+    timer.start();
+    for (size_t i = 0; i < numIterations; ++i)
         vectorSineScalar(input, output, vectorLength);
     std::cout << "Scalar: " << timer.stop().elapsed() << " (sec), output[1]: " << output[1] << "\n";
 }
