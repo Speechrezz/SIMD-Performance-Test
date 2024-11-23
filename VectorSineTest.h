@@ -79,30 +79,25 @@ void vectorSineXsimd(const float* input, float* output, size_t length)
     }
 }
 
-//void vectorAddEve(const float* input1, const float* input2, float* output, size_t length)
-//{
-//    // Process in chunks of the SIMD wide size
-//    auto wide_size = eve::wide<float>::size();
-//    for (size_t i = 0; i < length; i += wide_size) {
-//        // Load SIMD chunks
-//        auto va = eve::load(input1 + i, eve::lane<wide_size>);
-//        auto vb = eve::load(input2 + i, eve::lane<wide_size>);
-//
-//        // Perform element-wise addition
-//        auto vr = va + vb;
-//
-//        // Store the result back
-//        eve::store(vr, output + i);
-//    }
-//}
+void vectorAddEve(const float* input1, const float* input2, float* output, size_t length)
+{
+    size_t simd_size = eve::wide<float>::size();
+    for (size_t i = 0; i < length; i += simd_size)
+    {
+        eve::wide<float> in1 = eve::load(input1 + i);
+        eve::wide<float> in2 = eve::load(input2 + i);
+        eve::wide<float> out = eve::add(in1, in2);
+        eve::store(out, output + i);
+    }
+}
 
 void vectorSineEve(const float* input, float* output, size_t length) {
     size_t simd_size = eve::wide<float>::size();
     for (size_t i = 0; i < length; i += simd_size) 
     {
-        eve::wide<float> in = eve::load(&input[i]);
+        eve::wide<float> in = eve::load(input + i);
         eve::wide<float> out = eve::sin(in);
-        eve::store(out, &output[i]);
+        eve::store(out, output + i);
     }
 }
 

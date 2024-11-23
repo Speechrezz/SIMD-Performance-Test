@@ -74,6 +74,11 @@ void benchmarkVectorAdd()
 
     timer.start();
     for (size_t i = 0; i < numIterations * 10; ++i)
+        vectorAddEve(input1, input2, output, vectorLength);
+    std::cout << "EVE: " << timer.stop().elapsed() << " (sec), output[1]: " << output[1] << "\n";
+
+    timer.start();
+    for (size_t i = 0; i < numIterations * 10; ++i)
         vectorAddScalar(input1, input2, output, vectorLength);
     std::cout << "Scalar: " << timer.stop().elapsed() << " (sec), output[1]: " << output[1] << "\n";
 }
