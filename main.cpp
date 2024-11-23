@@ -15,24 +15,27 @@ int main()
 
     Timer timer;
 
+#if defined(__APPLE__)
     timer.start();
     for (size_t i = 0; i < numIterations; ++i)
         vectorSineAccelerate(input, output, vectorLength);
-    const double accelerateTime = timer.stop().elapsed();
+    std::cout << "Accelerate: " << timer.stop().elapsed() << " (sec)\n";
+#elif defined(WIN32) || defined(_WIN32) || defined(__WIN32__) || defined(__NT__) 
+    timer.start();
+    for (size_t i = 0; i < numIterations; ++i)
+        vectorSineAvx(input, output, vectorLength);
+    std::cout << "AVX Intrinsics: " << timer.stop().elapsed() << " (sec)\n";
+#endif
 
     timer.start();
     for (size_t i = 0; i < numIterations; ++i)
         vectorSineXsimd(input, output, vectorLength);
-    const double xsimdTime = timer.stop().elapsed();
+    std::cout << "XSIMD: " << timer.stop().elapsed() << " (sec)\n";
 
     timer.start();
     for (size_t i = 0; i < numIterations; ++i)
         vectorSineScalar(input, output, vectorLength);
-    const double scalarTime = timer.stop().elapsed();
-
-    std::cout << "Accelerate: " << accelerateTime << " (sec)\n";
-    std::cout << "XSIMD: " << xsimdTime << " (sec)\n";
-    std::cout << "Scalar: " << scalarTime << " (sec)\n";
+    std::cout << "Scalar: " << timer.stop().elapsed() << " (sec)\n";
 
     return 0;
 }

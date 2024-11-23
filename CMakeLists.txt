@@ -9,9 +9,11 @@ add_executable(xsimd_test main.cpp
         VectorSineTest.h
         Timer.h)
 
-# Find the Accelerate framework
-find_library(ACCELERATE_FRAMEWORK Accelerate REQUIRED)
-target_link_libraries(xsimd_test PRIVATE ${ACCELERATE_FRAMEWORK})
+if (APPLE)
+    # Apple Accelerate framework
+    find_library(ACCELERATE_FRAMEWORK Accelerate REQUIRED)
+    target_link_libraries(xsimd_test PRIVATE ${ACCELERATE_FRAMEWORK})
+endif()
 
 
 if (MSVC)
