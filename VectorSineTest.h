@@ -14,6 +14,17 @@ void fillArray(float* array, size_t length)
 
 #if defined(WIN32) || defined(_WIN32) || defined(__WIN32__) || defined(__NT__)
 #include <immintrin.h>
+void vectorAddAvx(const float* input1, const float* input2, float* output, size_t length)
+{
+    for (size_t i = 0; i < length; i += 8)
+    {
+        __m256 in1 = _mm256_load_ps(input1 + i);
+        __m256 in2 = _mm256_load_ps(input2 + i);
+        _mm256_store_ps(output + i, _mm256_add_ps(in1, in2));
+    }
+}
+
+
 void vectorSineAvx(const float* input, float* output, size_t length)
 {
     for (size_t i = 0; i < length; i += 8)
@@ -25,6 +36,12 @@ void vectorSineAvx(const float* input, float* output, size_t length)
 }
 #elif defined(__APPLE__)
 #include "Accelerate/Accelerate.h"
+
+void vectorAddAccelerate(const float* input1, const float* input2, float* output, size_t length)
+{
+    vDSP_vadd(input1, 1, input2, 1, output, 1, length);
+}
+
 void vectorSineAccelerate(const float* input, float* output, size_t length)
 {
     const int lengthInt = static_cast<int>(length);
@@ -32,6 +49,19 @@ void vectorSineAccelerate(const float* input, float* output, size_t length)
 }
 #endif
 
+void vectorAddXsimd(const float* input1, const float* input2, float* output, size_t length)
+{
+    using Batch = xsimd::batch<float, xsimd::best_arch>;
+    const size_t inc = Batch::size;
+
+    for (size_t i = 0; i < length; i += inc)
+    {
+        Batch in1 = Batch::load_aligned(input1 + i);
+        Batch in2 = Batch::load_aligned(input2 + i);
+        Batch sum = in1 + in2;
+        sum.store_aligned(output + i);
+    }
+}
 
 void vectorSineXsimd(const float* input, float* output, size_t length)
 {
@@ -44,6 +74,12 @@ void vectorSineXsimd(const float* input, float* output, size_t length)
         in = xsimd::sin(in);
         in.store_aligned(output + i);
     }
+}
+
+void vectorAddScalar(const float* input1, const float* input2, float* output, size_t length)
+{
+    for (size_t i = 0; i < length; ++i)
+        output[i] = input1[i] + input2[i];
 }
 
 void vectorSineScalar(const float* input, float* output, size_t length)
