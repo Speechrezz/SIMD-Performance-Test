@@ -7,8 +7,6 @@
 constexpr size_t vectorLength = 1024;
 constexpr size_t numIterations = 2000000;
 
-constexpr float pi = 3.14159265358979323846f;
-
 void benchmarkVectorAdd()
 {
     alignas(32) float input1[vectorLength];
@@ -107,6 +105,7 @@ void printRegister(const Register& reg)
 template<class Register>
 void testSsimd()
 {
+    constexpr float pi = 3.14159265358979323846f;
     constexpr auto align = Register::alignment();
     constexpr auto size = Register::size();
 
@@ -136,19 +135,19 @@ void testSsimd()
     // Rounding
 
     auto in3 = in1 - 2.f;
-    std::cout << "\nin3 * 3.5f = \t\t";
+    std::cout << "\nin3 * 3.5f =        ";
     printRegister(in3 * 3.6f);
 
-    std::cout << "round(in3 * 3.5f) = \t";
+    std::cout << "round(in3 * 3.5f) = ";
     printRegister(ssimd::round(in3 * 3.6f));
 
-    std::cout << "ceil(in3 * 3.5f) = \t";
+    std::cout << "ceil(in3 * 3.5f)  = ";
     printRegister(ssimd::ceil(in3 * 3.6f));
 
-    std::cout << "floor(in3 * 3.5f) = \t";
+    std::cout << "floor(in3 * 3.5f) = ";
     printRegister(ssimd::floor(in3 * 3.6f));
 
-    std::cout << "trunc(in3 * 3.5f) = \t";
+    std::cout << "trunc(in3 * 3.5f) = ";
     printRegister(ssimd::trunc(in3 * 3.6f));
 
     // Trig

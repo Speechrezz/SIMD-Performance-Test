@@ -2,9 +2,7 @@
 
 #include "../Register/AllRegisters.hpp"
 
-namespace ssimd
-{
-namespace array
+namespace ssimd::array
 {
 
 // Assumes array length is multiple of 8.
@@ -28,5 +26,4 @@ inline void sin8(const float* input, float* output, size_t length)
 #endif
 }
 
-} // namespace array
-} // namespace ssimd
+} // namespace ssimd::array

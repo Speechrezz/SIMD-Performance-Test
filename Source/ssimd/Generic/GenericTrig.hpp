@@ -2,9 +2,7 @@
 
 #include <cmath>
 
-namespace ssimd
-{
-namespace generic
+namespace ssimd::generic
 {
 
 template<typename Register>
@@ -20,5 +18,4 @@ inline Register sin(const Register& reg)
 	return Register::loadAligned(arr);
 }
 
-} // namespace generic
-} // namespace ssimd
+} // namespace ssimd::generic
