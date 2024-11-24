@@ -14,6 +14,7 @@ struct Register<float, neon> : public RegisterOverloads<float, neon>
 	float32x4_t data;
 
 	Register() = default;
+	SSIMD_INLINE Register(const Register<float, neon>& other) noexcept : data(other.data) {}
 	SSIMD_INLINE Register(const float32x4_t& newData) : data(newData) {}
 
 	static SSIMD_INLINE constexpr size_t size() { return 4; }
@@ -24,11 +25,19 @@ struct Register<float, neon> : public RegisterOverloads<float, neon>
 		return { vdupq_n_f32(scalar) };
 	}
 
+	static SSIMD_INLINE Register<float, neon> loadUnaligned(const float* memory)
+	{
+		return { vld1q_f32(memory) };
+	}
 	static SSIMD_INLINE Register<float, neon> loadAligned(const float* memory)
 	{
 		return { vld1q_f32(memory) };
 	}
 
+	SSIMD_INLINE void storeUnaligned(float* memory) const
+	{
+		vst1q_f32(memory, data);
+	}
 	SSIMD_INLINE void storeAligned(float* memory) const
 	{
 		vst1q_f32(memory, data);

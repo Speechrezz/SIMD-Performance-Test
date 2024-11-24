@@ -11,6 +11,7 @@ struct Register<float, fallback> : public RegisterOverloads<float, fallback>
 	float data;
 
 	Register() = default;
+	SSIMD_INLINE Register(const Register<float, fallback>& other) noexcept : data(other.data) {}
 	SSIMD_INLINE Register(float newData) : data(newData) {}
 
 	static SSIMD_INLINE constexpr size_t size() { return 1; }
@@ -21,11 +22,19 @@ struct Register<float, fallback> : public RegisterOverloads<float, fallback>
 		return { scalar };
 	}
 
+	static SSIMD_INLINE Register<float, fallback> loadUnaligned(const float* memory)
+	{
+		return { *memory };
+	}
 	static SSIMD_INLINE Register<float, fallback> loadAligned(const float* memory)
 	{
 		return { *memory };
 	}
 
+	SSIMD_INLINE void storeUnaligned(float* memory) const
+	{
+		*memory = data;
+	}
 	SSIMD_INLINE void storeAligned(float* memory) const
 	{
 		*memory = data;

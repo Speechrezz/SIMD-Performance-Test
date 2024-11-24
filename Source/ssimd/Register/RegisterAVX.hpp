@@ -14,6 +14,7 @@ struct Register<float, avx> : public RegisterOverloads<float, avx>
 	__m256 data;
 
 	Register() = default;
+	SSIMD_INLINE Register(const Register<float, avx>& other) noexcept : data(other.data) {}
 	SSIMD_INLINE Register(const __m256& newData) noexcept : data(newData) {}
 	SSIMD_INLINE Register(float scalar) noexcept : Register(broadcast(scalar)) {}
 
@@ -25,11 +26,19 @@ struct Register<float, avx> : public RegisterOverloads<float, avx>
 		return { _mm256_set1_ps(scalar) };
 	}
 
+	static SSIMD_INLINE Register<float, avx> loadUnaligned(const float* memory)
+	{
+		return { _mm256_loadu_ps(memory) };
+	}
 	static SSIMD_INLINE Register<float, avx> loadAligned(const float* memory)
 	{
 		return { _mm256_load_ps(memory) };
 	}
 
+	SSIMD_INLINE void storeUnaligned(float* memory) const
+	{
+		_mm256_storeu_ps(memory, data);
+	}
 	SSIMD_INLINE void storeAligned(float* memory) const
 	{
 		_mm256_store_ps(memory, data);
