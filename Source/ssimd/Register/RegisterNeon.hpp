@@ -29,10 +29,26 @@ struct Register<neon>
 	RegisterOverloadsDeclarations(Register<neon>)
 };
 
+
+// ---Arithmetic---
+
 inline Register<neon> add(const Register<neon>& reg1, const Register<neon>& reg2)
 {
 	return { vaddq_f32(reg1.data, reg2.data) };
 }
+
+inline Register<neon> sub(const Register<neon>& reg1, const Register<neon>& reg2)
+{
+	return { vsubq_f32(reg1.data, reg2.data) };
+}
+
+inline Register<neon> mul(const Register<neon>& reg1, const Register<neon>& reg2)
+{
+	return { vmulq_f32(reg1.data, reg2.data) };
+}
+
+
+// ---Trig---
 
 inline Register<neon> sin(const Register<neon>& reg)
 {

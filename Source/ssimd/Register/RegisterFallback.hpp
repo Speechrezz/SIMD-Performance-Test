@@ -26,10 +26,26 @@ struct Register<fallback>
 	RegisterOverloadsDeclarations(Register<fallback>)
 };
 
+
+// ---Arithmetic---
+
 inline Register<fallback> add(const Register<fallback>& reg1, const Register<fallback>& reg2)
 {
 	return { reg1.data + reg2.data };
 }
+
+inline Register<fallback> sub(const Register<fallback>& reg1, const Register<fallback>& reg2)
+{
+	return { reg1.data - reg2.data };
+}
+
+inline Register<fallback> mul(const Register<fallback>& reg1, const Register<fallback>& reg2)
+{
+	return { reg1.data * reg2.data };
+}
+
+
+// ---Trig---
 
 inline Register<fallback> sin(const Register<fallback>& reg)
 {

@@ -29,10 +29,26 @@ struct Register<avx>
 	RegisterOverloadsDeclarations(Register<avx>)
 };
 
+
+// ---Arithmetic---
+
 inline Register<avx> add(const Register<avx>& reg1, const Register<avx>& reg2)
 {
 	return { _mm256_add_ps(reg1.data, reg2.data) };
 }
+
+inline Register<avx> sub(const Register<avx>& reg1, const Register<avx>& reg2)
+{
+	return { _mm256_sub_ps(reg1.data, reg2.data) };
+}
+
+inline Register<avx> mul(const Register<avx>& reg1, const Register<avx>& reg2)
+{
+	return { _mm256_mul_ps(reg1.data, reg2.data) };
+}
+
+
+// ---Trig---
 
 #ifdef SSIMD_MSVC // Only available in the MSVC compiler
 inline Register<avx> sin(const Register<avx>& reg)

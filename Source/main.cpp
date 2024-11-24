@@ -88,10 +88,55 @@ void benchmarkVectorSine()
     std::cout << "Scalar: " << timer.stop().elapsed() << " (sec), output[1]: " << output[1] << "\n";
 }
 
+template<class Register>
+void printRegister(const Register& reg)
+{
+    alignas(Register::alignment()) float arr[Register::size()];
+    reg.storeAligned(arr);
+
+    std::cout << "[";
+
+    for (size_t i = 0; i < Register::size() - 1; ++i)
+        std::cout << arr[i] << ", ";
+
+    std::cout << arr[Register::size() - 1] << "]\n";
+}
+
+template<class Register>
+void testSSIMD()
+{
+    constexpr auto align = Register::alignment();
+    constexpr auto size = Register::size();
+
+    alignas(align) float input1[size];
+    alignas(align) float input2[size];
+    alignas(align) float output[size];
+    fillArray(input1, size);
+    fillArray(input2, size);
+
+    auto in1 = Register::loadAligned(input1);
+    auto in2 = Register::loadAligned(input2);
+
+    std::cout << "in1 + in2 = ";
+    printRegister(in1 + in2);
+
+    std::cout << "in1 - in2 = ";
+    printRegister(in1 - in2);
+
+    std::cout << "in1 * in2 = ";
+    printRegister(in1 * in2);
+}
+
 int main()
 {
-    benchmarkVectorAdd();
+    //benchmarkVectorAdd();
     //benchmarkVectorSine();
+
+    std::cout << "\n---AVX---\n";
+    testSSIMD<ssimd::Register<ssimd::avx>>();
+
+    std::cout << "\n---SSE---\n";
+    testSSIMD<ssimd::Register<ssimd::sse>>();
 
     return 0;
 }
