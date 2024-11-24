@@ -11,9 +11,10 @@ else()
     add_compile_options(-march=armv8-a)
 endif()
 
-add_executable(xsimd_test main.cpp
-        VectorSineTest.h
-        Timer.h)
+file(GLOB_RECURSE MY_SOURCES Source/**)
+source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR} FILES ${MY_SOURCES}) # Maintain folder structure
+
+add_executable(xsimd_test ${MY_SOURCES})
 
 if (APPLE)
     # Apple Accelerate framework
