@@ -9,12 +9,17 @@
 
 void fillArray(float* array, size_t length)
 {
+    if (length == 1)
+    {
+        array[0] = 1;
+        return;
+    }
+
     for (size_t i = 0; i < length; ++i)
         array[i] = static_cast<float>(i);
 }
 
 #if defined(WIN32) || defined(_WIN32) || defined(__WIN32__) || defined(__NT__)
-#include <immintrin.h>
 void vectorAddAvx(const float* input1, const float* input2, float* output, size_t length)
 {
     for (size_t i = 0; i < length; i += 8)
@@ -36,7 +41,6 @@ void vectorSineAvx(const float* input, float* output, size_t length)
     }
 }
 #elif defined(__APPLE__)
-#include "Accelerate/Accelerate.h"
 
 void vectorAddAccelerate(const float* input1, const float* input2, float* output, size_t length)
 {

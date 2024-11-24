@@ -9,9 +9,12 @@ namespace ssimd
 {
 
 template<>
-struct Register<float, neon>
+struct Register<float, neon> : public RegisterOverloads<Register<float, neon>>
 {
 	float32x4_t data;
+
+	Register() = default;
+	SSIMD_INLINE Register(const float32x4_t& newData) : data(newData) {}
 
 	static inline constexpr size_t size() { return 4; }
 	static inline constexpr size_t alignment() { return 16; }
@@ -25,8 +28,6 @@ struct Register<float, neon>
 	{
 		vst1q_f32(memory, data);
 	}
-
-	RegisterOverloadsDeclarations(float, neon)
 };
 
 
@@ -54,8 +55,6 @@ inline Register<float, neon> sin(const Register<float, neon>& reg)
 {
 	return generic::sin(reg);
 }
-
-RegisterOverloadsDefinitions(float, neon)
 
 } // namespace ssimd
 

@@ -2,7 +2,6 @@
 
 #include "../Core/Config.hpp"
 #include "../Generic/GenericTrig.hpp"
-#include "RegisterOverloads.hpp"
 
 namespace ssimd
 {
@@ -29,5 +28,24 @@ struct Register
 #else
   constexpr ArchType bestArch = ArchType::fallback;
 #endif
+
+template<class Derived>
+struct RegisterOverloads
+{
+	inline Derived operator+(const Derived& other) const
+	{
+		return add(*static_cast<const Derived*>(this), other);
+	}
+
+	inline Derived operator-(const Derived& other) const
+	{
+		return sub(*static_cast<const Derived*>(this), other);
+	}
+
+	inline Derived operator*(const Derived& other) const
+	{
+		return mul(*static_cast<const Derived*>(this), other);
+	}
+};
 
 } // namespace ssimd

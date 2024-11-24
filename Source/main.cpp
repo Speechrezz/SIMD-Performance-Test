@@ -134,6 +134,9 @@ int main()
 {
     //benchmarkVectorAdd();
     //benchmarkVectorSine();
+
+    std::cout << "\n---Fallback---\n";
+    testSSIMD<ssimd::Register<float, ssimd::fallback>>();
 #ifdef SSIMD_AVX
     std::cout << "\n---AVX---\n";
     testSSIMD<ssimd::Register<float, ssimd::avx>>();
