@@ -33,22 +33,38 @@ struct Register<float, avx> : public RegisterOverloads<Register<float, avx>>
 
 // ---Arithmetic---
 
-static SSIMD_INLINE Register<float, avx> add(const Register<float, avx>& reg1, const Register<float, avx>& reg2)
+SSIMD_INLINE Register<float, avx> add(const Register<float, avx>& reg, float scalar)
+{
+	return { _mm256_add_ps(reg.data, _mm256_set1_ps(scalar)) };
+}
+SSIMD_INLINE Register<float, avx> add(const Register<float, avx>& reg1, const Register<float, avx>& reg2)
 {
 	return { _mm256_add_ps(reg1.data, reg2.data) };
 }
 
-static SSIMD_INLINE Register<float, avx> sub(const Register<float, avx>& reg1, const Register<float, avx>& reg2)
+SSIMD_INLINE Register<float, avx> sub(const Register<float, avx>& reg, float scalar)
+{
+	return { _mm256_sub_ps(reg.data, _mm256_set1_ps(scalar)) };
+}
+SSIMD_INLINE Register<float, avx> sub(const Register<float, avx>& reg1, const Register<float, avx>& reg2)
 {
 	return { _mm256_sub_ps(reg1.data, reg2.data) };
 }
 
-static SSIMD_INLINE Register<float, avx> mul(const Register<float, avx>& reg1, const Register<float, avx>& reg2)
+SSIMD_INLINE Register<float, avx> mul(const Register<float, avx>& reg, float scalar)
+{
+	return { _mm256_mul_ps(reg.data, _mm256_set1_ps(scalar)) };
+}
+SSIMD_INLINE Register<float, avx> mul(const Register<float, avx>& reg1, const Register<float, avx>& reg2)
 {
 	return { _mm256_mul_ps(reg1.data, reg2.data) };
 }
 
-static SSIMD_INLINE Register<float, avx> div(const Register<float, avx>& reg1, const Register<float, avx>& reg2)
+SSIMD_INLINE Register<float, avx> div(const Register<float, avx>& reg, float scalar)
+{
+	return { _mm256_div_ps(reg.data, _mm256_set1_ps(scalar)) };
+}
+SSIMD_INLINE Register<float, avx> div(const Register<float, avx>& reg1, const Register<float, avx>& reg2)
 {
 	return { _mm256_div_ps(reg1.data, reg2.data) };
 }

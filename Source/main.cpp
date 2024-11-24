@@ -126,8 +126,8 @@ void testSsimd()
     std::cout << "in1 * in2 = ";
     printRegister(in1 * in2);
 
-    std::cout << "in1 / in2 = ";
-    printRegister(in1 / in2);
+    std::cout << "in1 / (in2 + 1.f) = ";
+    printRegister(in1 / (in2 + 1.f));
 
     std::cout << "sin(in1) = ";
     printRegister(ssimd::sin(in1));
