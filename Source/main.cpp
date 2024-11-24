@@ -125,18 +125,27 @@ void testSSIMD()
 
     std::cout << "in1 * in2 = ";
     printRegister(in1 * in2);
+
+    std::cout << "sin(in1) = ";
+    printRegister(ssimd::sin(in1));
 }
 
 int main()
 {
     //benchmarkVectorAdd();
     //benchmarkVectorSine();
-
+#ifdef SSIMD_AVX
     std::cout << "\n---AVX---\n";
     testSSIMD<ssimd::Register<float, ssimd::avx>>();
-
+#endif
+#ifdef SSIMD_SSE
     std::cout << "\n---SSE---\n";
     testSSIMD<ssimd::Register<float, ssimd::sse>>();
+#endif
+#ifdef SSIMD_NEON
+    std::cout << "\n---Neon---\n";
+    testSSIMD<ssimd::Register<float, ssimd::neon>>();
+#endif
 
     return 0;
 }
