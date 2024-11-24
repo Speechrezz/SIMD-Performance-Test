@@ -19,6 +19,11 @@ struct Register<float, neon> : public RegisterOverloads<Register<float, neon>>
 	static SSIMD_INLINE constexpr size_t size() { return 4; }
 	static SSIMD_INLINE constexpr size_t alignment() { return 16; }
 
+	static SSIMD_INLINE Register<float, neon> broadcast(float scalar)
+	{
+		return { vdupq_n_f32(scalar) };
+	}
+
 	static SSIMD_INLINE Register<float, neon> loadAligned(const float* memory)
 	{
 		return { vld1q_f32(memory) };

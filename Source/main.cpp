@@ -1,5 +1,6 @@
 #include <iostream>
 #include <vector>
+#include <typeinfo>
 
 #include "VectorSineTest.h"
 #include "Timer.h"
@@ -134,21 +135,23 @@ void testSsimd()
 
     // Rounding
 
-    auto in3 = in1 - 2.f;
-    std::cout << "\nin3 * 3.5f =        ";
-    printRegister(in3 * 3.6f);
+    std::cout << "\nbroadcast(3.6f)          = ";
+    printRegister(Register::broadcast(3.6f));
+    auto in3 = (in1 - 2.f) * 3.6f;
+    std::cout << "in3 = 3.6f * (in1 - 2.f) = ";
+    printRegister(in3);
 
-    std::cout << "round(in3 * 3.5f) = ";
-    printRegister(ssimd::round(in3 * 3.6f));
+    std::cout << "round(in3)               = ";
+    printRegister(ssimd::round(in3));
 
-    std::cout << "ceil(in3 * 3.5f)  = ";
-    printRegister(ssimd::ceil(in3 * 3.6f));
+    std::cout << "ceil(in3)                = ";
+    printRegister(ssimd::ceil(in3));
 
-    std::cout << "floor(in3 * 3.5f) = ";
-    printRegister(ssimd::floor(in3 * 3.6f));
+    std::cout << "floor(in3)               = ";
+    printRegister(ssimd::floor(in3));
 
-    std::cout << "trunc(in3 * 3.5f) = ";
-    printRegister(ssimd::trunc(in3 * 3.6f));
+    std::cout << "trunc(in3)               = ";
+    printRegister(ssimd::trunc(in3));
 
     // Trig
 
