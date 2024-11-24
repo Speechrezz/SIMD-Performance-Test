@@ -25,6 +25,8 @@ struct Register<neon>
 	{
 		vst1q_f32(memory, data);
 	}
+
+	RegisterOverloadsDeclarations(Register<neon>)
 };
 
 inline Register<neon> add(const Register<neon>& reg1, const Register<neon>& reg2)
@@ -36,6 +38,8 @@ inline Register<neon> sin(const Register<neon>& reg)
 {
 	return generic::sin(reg);
 }
+
+RegisterOverloadsDefinitions(Register<neon>)
 
 } // namespace ssimd
 

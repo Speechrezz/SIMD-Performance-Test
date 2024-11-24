@@ -91,7 +91,7 @@ void benchmarkVectorSine()
 int main()
 {
     benchmarkVectorAdd();
-    benchmarkVectorSine();
+    //benchmarkVectorSine();
 
     return 0;
 }

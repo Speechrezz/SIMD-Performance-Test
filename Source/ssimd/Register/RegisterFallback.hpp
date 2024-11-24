@@ -22,6 +22,8 @@ struct Register<fallback>
 	{
 		*memory = data;
 	}
+
+	RegisterOverloadsDeclarations(Register<fallback>)
 };
 
 inline Register<fallback> add(const Register<fallback>& reg1, const Register<fallback>& reg2)
@@ -33,5 +35,7 @@ inline Register<fallback> sin(const Register<fallback>& reg)
 {
 	return { std::sin(reg.data) };
 }
+
+RegisterOverloadsDefinitions(Register<fallback>)
 
 } // namespace ssimd

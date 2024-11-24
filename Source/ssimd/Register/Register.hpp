@@ -2,6 +2,7 @@
 
 #include "../Core/Config.hpp"
 #include "../Generic/GenericTrig.hpp"
+#include "RegisterOverloads.hpp"
 
 namespace ssimd
 {

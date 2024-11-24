@@ -25,6 +25,8 @@ struct Register<avx>
 	{
 		_mm256_store_ps(memory, data);
 	}
+
+	RegisterOverloadsDeclarations(Register<avx>)
 };
 
 inline Register<avx> add(const Register<avx>& reg1, const Register<avx>& reg2)
@@ -43,6 +45,8 @@ inline Register<avx> sin(const Register<avx>& reg)
 	return generic::sin(reg);
 }
 #endif
+
+RegisterOverloadsDefinitions(Register<avx>)
 
 } // namespace ssimd
 

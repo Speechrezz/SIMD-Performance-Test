@@ -85,7 +85,7 @@ void vectorAddSsimd(const float* input1, const float* input2, float* output, siz
     {
         Register in1 = Register::loadAligned(input1 + i);
         Register in2 = Register::loadAligned(input2 + i);
-        Register sum = ssimd::add(in1, in2);
+        Register sum = in1 + in2;
         sum.storeAligned(output + i);
     }
 }
