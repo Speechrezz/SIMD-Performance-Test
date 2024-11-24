@@ -7,27 +7,27 @@
 namespace ssimd
 {
 
-enum RegisterType
+enum ArchType
 {
 	fallback, sse, avx, neon, wasm
 };
 
-template<RegisterType registerType>
+template<typename dataType,ArchType registerType>
 struct Register
 {
 	static_assert(false, "Register type not supported");
 };
 
 #if defined(SSIMD_AVX)
-  constexpr RegisterType bestArch = RegisterType::avx;
+  constexpr ArchType bestArch = ArchType::avx;
 #elif defined(SSIMD_SSE)
-  constexpr RegisterType bestArch = RegisterType::sse;
+  constexpr ArchType bestArch = ArchType::sse;
 #elif defined(SSIMD_NEON)
-  constexpr RegisterType bestArch = RegisterType::neon;
+  constexpr ArchType bestArch = ArchType::neon;
 #elif defined(SSIMD_WASM)
-  constexpr RegisterType bestArch = RegisterType::wasm;
+  constexpr ArchType bestArch = ArchType::wasm;
 #else
-  constexpr RegisterType bestArch = RegisterType::fallback;
+  constexpr ArchType bestArch = ArchType::fallback;
 #endif
 
 } // namespace ssimd

@@ -9,14 +9,14 @@ namespace ssimd
 {
 
 template<>
-struct Register<sse>
+struct Register<float, sse>
 {
 	__m128 data;
 
 	static inline constexpr size_t size() { return 4; }
 	static inline constexpr size_t alignment() { return 16; }
 
-	static inline Register<sse> loadAligned(const float* memory)
+	static inline Register<float, sse> loadAligned(const float* memory)
 	{
 		return { _mm_load_ps(memory) };
 	}
@@ -26,23 +26,23 @@ struct Register<sse>
 		_mm_store_ps(memory, data);
 	}
 
-	RegisterOverloadsDeclarations(Register<sse>)
+	RegisterOverloadsDeclarations(float, sse)
 };
 
 
 // ---Arithmetic---
 
-inline Register<sse> add(const Register<sse>& reg1, const Register<sse>& reg2)
+inline Register<float, sse> add(const Register<float, sse>& reg1, const Register<float, sse>& reg2)
 {
 	return { _mm_add_ps(reg1.data, reg2.data) };
 }
 
-inline Register<sse> sub(const Register<sse>& reg1, const Register<sse>& reg2)
+inline Register<float, sse> sub(const Register<float, sse>& reg1, const Register<float, sse>& reg2)
 {
 	return { _mm_sub_ps(reg1.data, reg2.data) };
 }
 
-inline Register<sse> mul(const Register<sse>& reg1, const Register<sse>& reg2)
+inline Register<float, sse> mul(const Register<float, sse>& reg1, const Register<float, sse>& reg2)
 {
 	return { _mm_mul_ps(reg1.data, reg2.data) };
 }
@@ -51,18 +51,18 @@ inline Register<sse> mul(const Register<sse>& reg1, const Register<sse>& reg2)
 // ---Trig---
 
 #ifdef SSIMD_MSVC
-inline Register<sse> sin(const Register<sse>& reg)
+inline Register<float, sse> sin(const Register<float, sse>& reg)
 {
 	return { _mm_sin_ps(reg.data) };
 }
 #else
-inline Register<sse> sin(const Register<sse>& reg)
+inline Register<float, sse> sin(const Register<float, sse>& reg)
 {
 	return generic::sin(reg);
 }
 #endif
 
-RegisterOverloadsDefinitions(Register<sse>)
+RegisterOverloadsDefinitions(float, sse)
 
 } // namespace ssimd
 

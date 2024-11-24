@@ -79,7 +79,7 @@ void vectorSineXsimd(const float* input, float* output, size_t length)
 
 void vectorAddSsimd(const float* input1, const float* input2, float* output, size_t length)
 {
-    using Register = ssimd::Register<ssimd::bestArch>;
+    using Register = ssimd::Register<float, ssimd::bestArch>;
 
     for (size_t i = 0; i < length; i += Register::size())
     {
@@ -92,7 +92,7 @@ void vectorAddSsimd(const float* input1, const float* input2, float* output, siz
 
 void vectorSineSsimd(const float* input, float* output, size_t length)
 {
-    using Register = ssimd::Register<ssimd::bestArch>;
+    using Register = ssimd::Register<float, ssimd::bestArch>;
 
     for (size_t i = 0; i < length; i += Register::size())
     {

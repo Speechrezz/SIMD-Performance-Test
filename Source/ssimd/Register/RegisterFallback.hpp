@@ -6,14 +6,14 @@ namespace ssimd
 {
 
 template<>
-struct Register<fallback>
+struct Register<float, fallback>
 {
 	float data;
 
 	static inline constexpr size_t size() { return 1; }
 	static inline constexpr size_t alignment() { return 4; }
 
-	static inline Register<fallback> loadAligned(const float* memory)
+	static inline Register<float, fallback> loadAligned(const float* memory)
 	{
 		return { *memory };
 	}
@@ -23,23 +23,23 @@ struct Register<fallback>
 		*memory = data;
 	}
 
-	RegisterOverloadsDeclarations(Register<fallback>)
+	RegisterOverloadsDeclarations(float, fallback)
 };
 
 
 // ---Arithmetic---
 
-inline Register<fallback> add(const Register<fallback>& reg1, const Register<fallback>& reg2)
+inline Register<float, fallback> add(const Register<float, fallback>& reg1, const Register<float, fallback>& reg2)
 {
 	return { reg1.data + reg2.data };
 }
 
-inline Register<fallback> sub(const Register<fallback>& reg1, const Register<fallback>& reg2)
+inline Register<float, fallback> sub(const Register<float, fallback>& reg1, const Register<float, fallback>& reg2)
 {
 	return { reg1.data - reg2.data };
 }
 
-inline Register<fallback> mul(const Register<fallback>& reg1, const Register<fallback>& reg2)
+inline Register<float, fallback> mul(const Register<float, fallback>& reg1, const Register<float, fallback>& reg2)
 {
 	return { reg1.data * reg2.data };
 }
@@ -47,11 +47,11 @@ inline Register<fallback> mul(const Register<fallback>& reg1, const Register<fal
 
 // ---Trig---
 
-inline Register<fallback> sin(const Register<fallback>& reg)
+inline Register<float, fallback> sin(const Register<float, fallback>& reg)
 {
 	return { std::sin(reg.data) };
 }
 
-RegisterOverloadsDefinitions(Register<fallback>)
+RegisterOverloadsDefinitions(float, fallback)
 
 } // namespace ssimd

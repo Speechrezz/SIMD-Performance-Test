@@ -133,10 +133,10 @@ int main()
     //benchmarkVectorSine();
 
     std::cout << "\n---AVX---\n";
-    testSSIMD<ssimd::Register<ssimd::avx>>();
+    testSSIMD<ssimd::Register<float, ssimd::avx>>();
 
     std::cout << "\n---SSE---\n";
-    testSSIMD<ssimd::Register<ssimd::sse>>();
+    testSSIMD<ssimd::Register<float, ssimd::sse>>();
 
     return 0;
 }

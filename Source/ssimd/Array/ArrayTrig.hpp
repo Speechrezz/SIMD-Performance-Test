@@ -8,7 +8,7 @@ namespace array
 {
 
 // Assumes array length is multiple of 8.
-template<RegisterType arch = bestArch>
+template<ArchType arch = bestArch>
 inline void sin8(const float* input, float* output, size_t length)
 {
 	ASSERT(length % 8 == 0);
@@ -17,7 +17,7 @@ inline void sin8(const float* input, float* output, size_t length)
     const int lengthInt = static_cast<int>(length);
     vvsinf(output, input, &lengthInt);
 #else
-    using Register = ssimd::Register<arch>;
+    using Register = ssimd::Register<float, arch>;
 
     for (size_t i = 0; i < length; i += Register::size())
     {

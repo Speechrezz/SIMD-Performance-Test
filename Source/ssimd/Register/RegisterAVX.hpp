@@ -9,14 +9,14 @@ namespace ssimd
 {
 
 template<>
-struct Register<avx>
+struct Register<float, avx>
 {
 	__m256 data;
 
 	static inline constexpr size_t size() { return 8; }
 	static inline constexpr size_t alignment() { return 32; }
 
-	static inline Register<avx> loadAligned(const float* memory)
+	static inline Register<float, avx> loadAligned(const float* memory)
 	{
 		return { _mm256_load_ps(memory) };
 	}
@@ -26,23 +26,23 @@ struct Register<avx>
 		_mm256_store_ps(memory, data);
 	}
 
-	RegisterOverloadsDeclarations(Register<avx>)
+	RegisterOverloadsDeclarations(float, avx)
 };
 
 
 // ---Arithmetic---
 
-inline Register<avx> add(const Register<avx>& reg1, const Register<avx>& reg2)
+inline Register<float, avx> add(const Register<float, avx>& reg1, const Register<float, avx>& reg2)
 {
 	return { _mm256_add_ps(reg1.data, reg2.data) };
 }
 
-inline Register<avx> sub(const Register<avx>& reg1, const Register<avx>& reg2)
+inline Register<float, avx> sub(const Register<float, avx>& reg1, const Register<float, avx>& reg2)
 {
 	return { _mm256_sub_ps(reg1.data, reg2.data) };
 }
 
-inline Register<avx> mul(const Register<avx>& reg1, const Register<avx>& reg2)
+inline Register<float, avx> mul(const Register<float, avx>& reg1, const Register<float, avx>& reg2)
 {
 	return { _mm256_mul_ps(reg1.data, reg2.data) };
 }
@@ -51,18 +51,18 @@ inline Register<avx> mul(const Register<avx>& reg1, const Register<avx>& reg2)
 // ---Trig---
 
 #ifdef SSIMD_MSVC // Only available in the MSVC compiler
-inline Register<avx> sin(const Register<avx>& reg)
+inline Register<float, avx> sin(const Register<float, avx>& reg)
 {
 	return { _mm256_sin_ps(reg.data) };
 }
 #else
-inline Register<avx> sin(const Register<avx>& reg)
+inline Register<float, avx> sin(const Register<float, avx>& reg)
 {
 	return generic::sin(reg);
 }
 #endif
 
-RegisterOverloadsDefinitions(Register<avx>)
+RegisterOverloadsDefinitions(float, avx)
 
 } // namespace ssimd
 

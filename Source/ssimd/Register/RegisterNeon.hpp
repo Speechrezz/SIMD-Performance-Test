@@ -9,14 +9,14 @@ namespace ssimd
 {
 
 template<>
-struct Register<neon>
+struct Register<float, neon>
 {
 	float32x4_t data;
 
 	static inline constexpr size_t size() { return 4; }
 	static inline constexpr size_t alignment() { return 16; }
 
-	static inline Register<neon> loadAligned(const float* memory)
+	static inline Register<float, neon> loadAligned(const float* memory)
 	{
 		return { vld1q_f32(memory) };
 	}
@@ -26,23 +26,23 @@ struct Register<neon>
 		vst1q_f32(memory, data);
 	}
 
-	RegisterOverloadsDeclarations(Register<neon>)
+	RegisterOverloadsDeclarations(float, neon)
 };
 
 
 // ---Arithmetic---
 
-inline Register<neon> add(const Register<neon>& reg1, const Register<neon>& reg2)
+inline Register<float, neon> add(const Register<float, neon>& reg1, const Register<float, neon>& reg2)
 {
 	return { vaddq_f32(reg1.data, reg2.data) };
 }
 
-inline Register<neon> sub(const Register<neon>& reg1, const Register<neon>& reg2)
+inline Register<float, neon> sub(const Register<float, neon>& reg1, const Register<float, neon>& reg2)
 {
 	return { vsubq_f32(reg1.data, reg2.data) };
 }
 
-inline Register<neon> mul(const Register<neon>& reg1, const Register<neon>& reg2)
+inline Register<float, neon> mul(const Register<float, neon>& reg1, const Register<float, neon>& reg2)
 {
 	return { vmulq_f32(reg1.data, reg2.data) };
 }
@@ -50,12 +50,12 @@ inline Register<neon> mul(const Register<neon>& reg1, const Register<neon>& reg2
 
 // ---Trig---
 
-inline Register<neon> sin(const Register<neon>& reg)
+inline Register<float, neon> sin(const Register<float, neon>& reg)
 {
 	return generic::sin(reg);
 }
 
-RegisterOverloadsDefinitions(Register<neon>)
+RegisterOverloadsDefinitions(float, neon)
 
 } // namespace ssimd
 
