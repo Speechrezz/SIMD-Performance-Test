@@ -2,7 +2,7 @@
 
 #include "Register.hpp"
 
-#ifdef SIMD_NEON
+#ifdef SSIMD_NEON
 #include <cmath>
 
 namespace ssimd
