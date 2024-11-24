@@ -1,6 +1,7 @@
 #pragma once
 
 #include "../Core/Config.hpp"
+#include "../Generic/GenericTrig.hpp"
 
 namespace ssimd
 {

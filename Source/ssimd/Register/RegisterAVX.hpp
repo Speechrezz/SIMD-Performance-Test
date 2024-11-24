@@ -3,7 +3,6 @@
 #include "Register.hpp"
 
 #ifdef SSIMD_AVX
-#include <immintrin.h>
 #include <cmath>
 
 namespace ssimd
@@ -22,7 +21,7 @@ struct Register<avx>
 		return { _mm256_load_ps(memory) };
 	}
 
-	inline void storeAligned(float* memory)
+	inline void storeAligned(float* memory) const
 	{
 		_mm256_store_ps(memory, data);
 	}
@@ -41,14 +40,7 @@ inline Register<avx> sin(const Register<avx>& reg)
 #else
 inline Register<avx> sin(const Register<avx>& reg)
 {
-	// TODO: Come up with a better fallback
-	alignas(Register<avx>::size()) float arr[Register<avx>::size()];
-	_mm256_store_ps(arr, reg.data);
-
-	for (float& v : arr)
-		v = std::sin(v);
-
-	return { _mm256_load_ps(arr) };
+	return generic::sin(reg);
 }
 #endif
 

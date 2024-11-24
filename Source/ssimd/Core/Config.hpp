@@ -19,8 +19,13 @@
 #if defined(__AVX__) || defined(__AVX2__)
   #define SSIMD_AVX 1
   #define SSIMD_SSE 1
+  #include <immintrin.h>
 #elif defined(__SSE__) || defined(__SSE2__)  || defined(__SSE3__)
   #define SSIMD_SSE 1
+  #include <immintrin.h>
+#elif defined(__ARM_NEON_FP)
+  #include <arm_neon.h>
+  #define SSIMD_NEON 1
 #endif
 
 

@@ -1,7 +1,6 @@
 #pragma once
 
 #include "Register.hpp"
-#include <cmath>
 
 namespace ssimd
 {
@@ -11,7 +10,7 @@ struct Register<fallback>
 {
 	float data;
 
-	static inline size_t size() { return 1; }
+	static inline constexpr size_t size() { return 1; }
 	static inline constexpr size_t alignment() { return 4; }
 
 	static inline Register<fallback> loadAligned(const float* memory)
@@ -19,7 +18,7 @@ struct Register<fallback>
 		return { *memory };
 	}
 
-	inline void storeAligned(float* memory)
+	inline void storeAligned(float* memory) const
 	{
 		*memory = data;
 	}
