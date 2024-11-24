@@ -103,7 +103,7 @@ void printRegister(const Register& reg)
 }
 
 template<class Register>
-void testSSIMD()
+void testSsimd()
 {
     constexpr auto align = Register::alignment();
     constexpr auto size = Register::size();
@@ -130,25 +130,30 @@ void testSSIMD()
     printRegister(ssimd::sin(in1));
 }
 
-int main()
+void testSsimdAll()
 {
-    //benchmarkVectorAdd();
-    //benchmarkVectorSine();
-
     std::cout << "\n---Fallback---\n";
-    testSSIMD<ssimd::Register<float, ssimd::fallback>>();
+    testSsimd<ssimd::Register<float, ssimd::fallback>>();
 #ifdef SSIMD_AVX
     std::cout << "\n---AVX---\n";
-    testSSIMD<ssimd::Register<float, ssimd::avx>>();
+    testSsimd<ssimd::Register<float, ssimd::avx>>();
 #endif
 #ifdef SSIMD_SSE
     std::cout << "\n---SSE---\n";
-    testSSIMD<ssimd::Register<float, ssimd::sse>>();
+    testSsimd<ssimd::Register<float, ssimd::sse>>();
 #endif
 #ifdef SSIMD_NEON
     std::cout << "\n---Neon---\n";
-    testSSIMD<ssimd::Register<float, ssimd::neon>>();
+    testSsimd<ssimd::Register<float, ssimd::neon>>();
 #endif
+}
+
+int main()
+{
+    benchmarkVectorAdd();
+    benchmarkVectorSine();
+
+    testSsimdAll();
 
     return 0;
 }

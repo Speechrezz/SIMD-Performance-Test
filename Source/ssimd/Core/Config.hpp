@@ -44,4 +44,5 @@
   #define ASSERT(x)
 #endif
 
+
 #define SSIMD_INLINE inline
