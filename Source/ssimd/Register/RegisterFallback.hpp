@@ -51,6 +51,29 @@ SSIMD_INLINE Register<float, fallback> div(const Register<float, fallback>& reg1
 }
 
 
+// ---Rounding---
+
+SSIMD_INLINE Register<float, fallback> round(const Register<float, fallback>& reg)
+{
+	return std::round(reg.data);
+}
+
+SSIMD_INLINE Register<float, fallback> ceil(const Register<float, fallback>& reg)
+{
+	return std::ceil(reg.data);
+}
+
+SSIMD_INLINE Register<float, fallback> floor(const Register<float, fallback>& reg)
+{
+	return std::floor(reg.data);
+}
+
+SSIMD_INLINE Register<float, fallback> trunc(const Register<float, fallback>& reg)
+{
+	return std::trunc(reg.data);
+}
+
+
 // ---Trig---
 
 SSIMD_INLINE Register<float, fallback> sin(const Register<float, fallback>& reg)

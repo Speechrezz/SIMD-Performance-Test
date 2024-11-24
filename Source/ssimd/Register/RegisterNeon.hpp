@@ -70,6 +70,29 @@ SSIMD_INLINE Register<float, neon> div(const Register<float, neon>& reg1, const 
 }
 
 
+// ---Rounding---
+
+SSIMD_INLINE Register<float, neon> round(const Register<float, neon>& reg)
+{
+	return { vrndnq_f32(reg.data) };
+}
+
+SSIMD_INLINE Register<float, neon> ceil(const Register<float, neon>& reg)
+{
+	return { vrndpq_f32(reg.data) };
+}
+
+SSIMD_INLINE Register<float, neon> floor(const Register<float, neon>& reg)
+{
+	return { vrndmq_f32(reg.data) };
+}
+
+SSIMD_INLINE Register<float, neon> trunc(const Register<float, neon>& reg)
+{
+	return { vrndq_f32(reg.data) };
+}
+
+
 // ---Trig---
 
 SSIMD_INLINE Register<float, neon> sin(const Register<float, neon>& reg)

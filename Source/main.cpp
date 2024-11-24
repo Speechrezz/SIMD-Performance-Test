@@ -7,6 +7,8 @@
 constexpr size_t vectorLength = 1024;
 constexpr size_t numIterations = 2000000;
 
+constexpr float pi = 3.14159265358979323846f;
+
 void benchmarkVectorAdd()
 {
     alignas(32) float input1[vectorLength];
@@ -117,6 +119,8 @@ void testSsimd()
     auto in1 = Register::loadAligned(input1);
     auto in2 = Register::loadAligned(input2);
 
+    // Arithmetic
+
     std::cout << "in1 + in2 = ";
     printRegister(in1 + in2);
 
@@ -129,32 +133,52 @@ void testSsimd()
     std::cout << "in1 / (in2 + 1.f) = ";
     printRegister(in1 / (in2 + 1.f));
 
-    std::cout << "sin(in1) = ";
-    printRegister(ssimd::sin(in1));
+    // Rounding
+
+    auto in3 = in1 - 2.f;
+    std::cout << "\nin3 * 3.5f = \t\t";
+    printRegister(in3 * 3.6f);
+
+    std::cout << "round(in3 * 3.5f) = \t";
+    printRegister(ssimd::round(in3 * 3.6f));
+
+    std::cout << "ceil(in3 * 3.5f) = \t";
+    printRegister(ssimd::ceil(in3 * 3.6f));
+
+    std::cout << "floor(in3 * 3.5f) = \t";
+    printRegister(ssimd::floor(in3 * 3.6f));
+
+    std::cout << "trunc(in3 * 3.5f) = \t";
+    printRegister(ssimd::trunc(in3 * 3.6f));
+
+    // Trig
+
+    std::cout << "\nsin(in1 * 0.25f * pi) = ";
+    printRegister(ssimd::sin(in1 * 0.25f * pi));
 }
 
 void testSsimdAll()
 {
-    std::cout << "\n---Fallback---\n";
+    std::cout << "\n\n---Fallback---\n\n";
     testSsimd<ssimd::Register<float, ssimd::fallback>>();
 #ifdef SSIMD_AVX
-    std::cout << "\n---AVX---\n";
+    std::cout << "\n\n---AVX---\n\n";
     testSsimd<ssimd::Register<float, ssimd::avx>>();
 #endif
 #ifdef SSIMD_SSE
-    std::cout << "\n---SSE---\n";
+    std::cout << "\n\n---SSE---\n\n";
     testSsimd<ssimd::Register<float, ssimd::sse>>();
 #endif
 #ifdef SSIMD_NEON
-    std::cout << "\n---Neon---\n";
+    std::cout << "\n\n---Neon---\n\n";
     testSsimd<ssimd::Register<float, ssimd::neon>>();
 #endif
 }
 
 int main()
 {
-    benchmarkVectorAdd();
-    benchmarkVectorSine();
+    //benchmarkVectorAdd();
+    //benchmarkVectorSine();
 
     testSsimdAll();
 

@@ -70,6 +70,28 @@ SSIMD_INLINE Register<float, sse> div(const Register<float, sse>& reg1, const Re
 }
 
 
+// ---Rounding---
+
+SSIMD_INLINE Register<float, sse> round(const Register<float, sse>& reg)
+{
+	return { _mm_round_ps(reg.data, _MM_FROUND_TO_NEAREST_INT | _MM_FROUND_NO_EXC) };
+}
+
+SSIMD_INLINE Register<float, sse> ceil(const Register<float, sse>& reg)
+{
+	return { _mm_round_ps(reg.data, _MM_FROUND_TO_POS_INF | _MM_FROUND_NO_EXC) };
+}
+
+SSIMD_INLINE Register<float, sse> floor(const Register<float, sse>& reg)
+{
+	return { _mm_round_ps(reg.data, _MM_FROUND_TO_NEG_INF | _MM_FROUND_NO_EXC) };
+}
+
+SSIMD_INLINE Register<float, sse> trunc(const Register<float, sse>& reg)
+{
+	return { _mm_round_ps(reg.data, _MM_FROUND_TO_ZERO | _MM_FROUND_NO_EXC) };
+}
+
 // ---Trig---
 
 SSIMD_INLINE Register<float, sse> sin(const Register<float, sse>& reg)
