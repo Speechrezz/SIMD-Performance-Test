@@ -15,6 +15,7 @@ struct Register<float, neon> : public RegisterOverloads<float, neon>
 
 	Register() = default;
 	SSIMD_INLINE Register(const float32x4_t& newData) : data(newData) {}
+    SSIMD_INLINE Register(float scalar) noexcept : Register(broadcast(scalar)) {}
 
 	static SSIMD_INLINE constexpr size_t size() { return 4; }
 	static SSIMD_INLINE constexpr size_t alignment() { return 16; }
