@@ -9,7 +9,7 @@ namespace ssimd
 {
 
 template<>
-struct Register<float, neon> : public RegisterOverloads<Register<float, neon>>
+struct Register<float, neon> : public RegisterOverloads<float, neon>
 {
 	float32x4_t data;
 
@@ -38,37 +38,21 @@ struct Register<float, neon> : public RegisterOverloads<Register<float, neon>>
 
 // ---Arithmetic---
 
-SSIMD_INLINE Register<float, neon> add(const Register<float, neon>& reg, float scalar)
-{
-	return { vaddq_f32(reg.data, vdupq_n_f32(scalar)) };
-}
 SSIMD_INLINE Register<float, neon> add(const Register<float, neon>& reg1, const Register<float, neon>& reg2)
 {
 	return { vaddq_f32(reg1.data, reg2.data) };
 }
 
-SSIMD_INLINE Register<float, neon> sub(const Register<float, neon>& reg, float scalar)
-{
-	return { vsubq_f32(reg.data, vdupq_n_f32(scalar)) };
-}
 SSIMD_INLINE Register<float, neon> sub(const Register<float, neon>& reg1, const Register<float, neon>& reg2)
 {
 	return { vsubq_f32(reg1.data, reg2.data) };
 }
 
-SSIMD_INLINE Register<float, neon> mul(const Register<float, neon>& reg, float scalar)
-{
-	return { vmulq_f32(reg.data, vdupq_n_f32(scalar)) };
-}
 SSIMD_INLINE Register<float, neon> mul(const Register<float, neon>& reg1, const Register<float, neon>& reg2)
 {
 	return { vmulq_f32(reg1.data, reg2.data) };
 }
 
-SSIMD_INLINE Register<float, neon> div(const Register<float, neon>& reg, float scalar)
-{
-	return { vdivq_f32(reg.data, vdupq_n_f32(scalar)) };
-}
 SSIMD_INLINE Register<float, neon> div(const Register<float, neon>& reg1, const Register<float, neon>& reg2)
 {
 	return { vdivq_f32(reg1.data, reg2.data) };

@@ -137,7 +137,7 @@ void testSsimd()
 
     std::cout << "\nbroadcast(3.6f)          = ";
     printRegister(Register::broadcast(3.6f));
-    auto in3 = (in1 - 2.f) * 3.6f;
+    auto in3 = 3.6f * (in1 - 2.f);
     std::cout << "in3 = 3.6f * (in1 - 2.f) = ";
     printRegister(in3);
 

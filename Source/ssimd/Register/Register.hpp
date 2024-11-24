@@ -11,10 +11,10 @@ enum ArchType
 	fallback, sse, avx, neon, wasm
 };
 
-template<typename dataType,ArchType registerType>
+template<typename DataType, ArchType archType>
 struct Register
 {
-	static_assert(false, "Register type not supported");
+	static_assert(false, "Arch type not supported");
 };
 
 #if defined(SSIMD_AVX)
@@ -29,31 +29,31 @@ struct Register
   constexpr ArchType bestArch = ArchType::fallback;
 #endif
 
-template<class Derived>
+template<typename DataType, ArchType archType>
 struct RegisterOverloads
 {
-	template<typename OtherType>
-	SSIMD_INLINE Derived operator+(const OtherType& other) const
+private:
+	using Derived = Register<DataType, archType>;
+
+public:
+	friend SSIMD_INLINE Derived operator+(Derived const& self, Derived const& other) noexcept
 	{
-		return add(*static_cast<const Derived*>(this), other);
+		return add(self, other);
 	}
 
-	template<typename OtherType>
-	SSIMD_INLINE Derived operator-(const OtherType& other) const
+	friend SSIMD_INLINE Derived operator-(Derived const& self, Derived const& other) noexcept
 	{
-		return sub(*static_cast<const Derived*>(this), other);
+		return sub(self, other);
 	}
 
-	template<typename OtherType>
-	SSIMD_INLINE Derived operator*(const OtherType& other) const
+	friend SSIMD_INLINE Derived operator*(Derived const& self, Derived const& other) noexcept
 	{
-		return mul(*static_cast<const Derived*>(this), other);
+		return mul(self, other);
 	}
 
-	template<typename OtherType>
-	SSIMD_INLINE Derived operator/(const OtherType& other) const
+	friend SSIMD_INLINE Derived operator/(Derived const& self, Derived const& other) noexcept
 	{
-		return div(*static_cast<const Derived*>(this), other);
+		return div(self, other);
 	}
 };
 

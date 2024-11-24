@@ -6,12 +6,12 @@ namespace ssimd
 {
 
 template<>
-struct Register<float, fallback> : public RegisterOverloads<Register<float, fallback>>
+struct Register<float, fallback> : public RegisterOverloads<float, fallback>
 {
 	float data;
 
 	Register() = default;
-	SSIMD_INLINE Register(const float& newData) : data(newData) {}
+	SSIMD_INLINE Register(float newData) : data(newData) {}
 
 	static SSIMD_INLINE constexpr size_t size() { return 1; }
 	static SSIMD_INLINE constexpr size_t alignment() { return 4; }

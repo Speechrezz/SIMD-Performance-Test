@@ -9,12 +9,13 @@ namespace ssimd
 {
 
 template<>
-struct Register<float, avx> : public RegisterOverloads<Register<float, avx>>
+struct Register<float, avx> : public RegisterOverloads<float, avx>
 {
 	__m256 data;
 
 	Register() = default;
-	SSIMD_INLINE Register(const __m256& newData) : data(newData) {}
+	SSIMD_INLINE Register(const __m256& newData) noexcept : data(newData) {}
+	SSIMD_INLINE Register(float scalar) noexcept : Register(broadcast(scalar)) {}
 
 	static SSIMD_INLINE constexpr size_t size() { return 8; }
 	static SSIMD_INLINE constexpr size_t alignment() { return 32; }
@@ -38,37 +39,21 @@ struct Register<float, avx> : public RegisterOverloads<Register<float, avx>>
 
 // ---Arithmetic---
 
-SSIMD_INLINE Register<float, avx> add(const Register<float, avx>& reg, float scalar)
-{
-	return { _mm256_add_ps(reg.data, _mm256_set1_ps(scalar)) };
-}
 SSIMD_INLINE Register<float, avx> add(const Register<float, avx>& reg1, const Register<float, avx>& reg2)
 {
 	return { _mm256_add_ps(reg1.data, reg2.data) };
 }
 
-SSIMD_INLINE Register<float, avx> sub(const Register<float, avx>& reg, float scalar)
-{
-	return { _mm256_sub_ps(reg.data, _mm256_set1_ps(scalar)) };
-}
 SSIMD_INLINE Register<float, avx> sub(const Register<float, avx>& reg1, const Register<float, avx>& reg2)
 {
 	return { _mm256_sub_ps(reg1.data, reg2.data) };
 }
 
-SSIMD_INLINE Register<float, avx> mul(const Register<float, avx>& reg, float scalar)
-{
-	return { _mm256_mul_ps(reg.data, _mm256_set1_ps(scalar)) };
-}
 SSIMD_INLINE Register<float, avx> mul(const Register<float, avx>& reg1, const Register<float, avx>& reg2)
 {
 	return { _mm256_mul_ps(reg1.data, reg2.data) };
 }
 
-SSIMD_INLINE Register<float, avx> div(const Register<float, avx>& reg, float scalar)
-{
-	return { _mm256_div_ps(reg.data, _mm256_set1_ps(scalar)) };
-}
 SSIMD_INLINE Register<float, avx> div(const Register<float, avx>& reg1, const Register<float, avx>& reg2)
 {
 	return { _mm256_div_ps(reg1.data, reg2.data) };
