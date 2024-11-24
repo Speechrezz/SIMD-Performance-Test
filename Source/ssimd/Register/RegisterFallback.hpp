@@ -45,6 +45,11 @@ SSIMD_INLINE Register<float, fallback> mul(const Register<float, fallback>& reg1
 	return { reg1.data * reg2.data };
 }
 
+SSIMD_INLINE Register<float, fallback> div(const Register<float, fallback>& reg1, const Register<float, fallback>& reg2)
+{
+	return { reg1.data / reg2.data };
+}
+
 
 // ---Trig---
 

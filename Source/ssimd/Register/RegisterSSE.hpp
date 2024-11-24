@@ -48,20 +48,22 @@ SSIMD_INLINE Register<float, sse> mul(const Register<float, sse>& reg1, const Re
 	return { _mm_mul_ps(reg1.data, reg2.data) };
 }
 
+SSIMD_INLINE Register<float, sse> div(const Register<float, sse>& reg1, const Register<float, sse>& reg2)
+{
+	return { _mm_div_ps(reg1.data, reg2.data) };
+}
+
 
 // ---Trig---
 
+SSIMD_INLINE Register<float, sse> sin(const Register<float, sse>& reg)
+{
 #ifdef SSIMD_MSVC
-SSIMD_INLINE Register<float, sse> sin(const Register<float, sse>& reg)
-{
 	return { _mm_sin_ps(reg.data) };
-}
 #else
-SSIMD_INLINE Register<float, sse> sin(const Register<float, sse>& reg)
-{
 	return generic::sin(reg);
-}
 #endif
+}
 
 } // namespace ssimd
 

@@ -48,6 +48,11 @@ SSIMD_INLINE Register<float, neon> mul(const Register<float, neon>& reg1, const 
 	return { vmulq_f32(reg1.data, reg2.data) };
 }
 
+SSIMD_INLINE Register<float, neon> div(const Register<float, neon>& reg1, const Register<float, neon>& reg2)
+{
+	return { vdivq_f32(reg1.data, reg2.data) };
+}
+
 
 // ---Trig---
 

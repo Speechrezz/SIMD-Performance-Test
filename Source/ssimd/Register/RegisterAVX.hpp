@@ -48,6 +48,11 @@ static SSIMD_INLINE Register<float, avx> mul(const Register<float, avx>& reg1, c
 	return { _mm256_mul_ps(reg1.data, reg2.data) };
 }
 
+static SSIMD_INLINE Register<float, avx> div(const Register<float, avx>& reg1, const Register<float, avx>& reg2)
+{
+	return { _mm256_div_ps(reg1.data, reg2.data) };
+}
+
 
 // ---Trig---
 

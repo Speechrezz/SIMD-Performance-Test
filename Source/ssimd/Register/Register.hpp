@@ -32,19 +32,24 @@ struct Register
 template<class Derived>
 struct RegisterOverloads
 {
-	inline Derived operator+(const Derived& other) const
+	SSIMD_INLINE Derived operator+(const Derived& other) const
 	{
 		return add(*static_cast<const Derived*>(this), other);
 	}
 
-	inline Derived operator-(const Derived& other) const
+	SSIMD_INLINE Derived operator-(const Derived& other) const
 	{
 		return sub(*static_cast<const Derived*>(this), other);
 	}
 
-	inline Derived operator*(const Derived& other) const
+	SSIMD_INLINE Derived operator*(const Derived& other) const
 	{
 		return mul(*static_cast<const Derived*>(this), other);
+	}
+
+	SSIMD_INLINE Derived operator/(const Derived& other) const
+	{
+		return div(*static_cast<const Derived*>(this), other);
 	}
 };
 
