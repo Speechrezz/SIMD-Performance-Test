@@ -102,6 +102,11 @@ void vectorSineSsimd(const float* input, float* output, size_t length)
     }
 }
 
+void vectorSineSsimdArray(const float* input, float* output, size_t length)
+{
+    ssimd::array::sin8(input, output, length);
+}
+
 void vectorAddScalar(const float* input1, const float* input2, float* output, size_t length)
 {
     for (size_t i = 0; i < length; ++i)
