@@ -46,7 +46,7 @@ struct RegisterOverloads
 private:
 	using Derived = Register<DataType, archType>;
 
-public:
+public: // Binary
 	friend SSIMD_INLINE Derived operator+(Derived const& self, Derived const& other) noexcept
 	{
 		return add(self, other);
@@ -65,6 +65,12 @@ public:
 	friend SSIMD_INLINE Derived operator/(Derived const& self, Derived const& other) noexcept
 	{
 		return div(self, other);
+	}
+
+public:	// Unary
+	friend SSIMD_INLINE Derived operator-(Derived const& self) noexcept
+	{
+		return neg(self);
 	}
 };
 

@@ -108,7 +108,7 @@ bool testFloatUnary()
 
 	for (size_t i = 0; i < size; ++i)
 		desired[i] = -input[i];
-	EXPECT_EQ_REG(desired, neg(reg), "neg");
+	EXPECT_EQ_REG(desired, -reg, "neg");
 
 	return true;
 }
