@@ -84,6 +84,33 @@ SSIMD_INLINE enable_if_neon<Arch> neg(const Register<float, Arch>& reg)
 }
 
 
+// ---Fused---
+
+template <ArchType Arch>
+SSIMD_INLINE enable_if_neon<Arch> fma(const Register<float, Arch>& a, const Register<float, Arch>& b, const Register<float, Arch>& c)
+{
+    return { vfmaq_f32(c.data, a.data, b.data) };
+}
+
+template <ArchType Arch>
+SSIMD_INLINE enable_if_neon<Arch> fms(const Register<float, Arch>& a, const Register<float, Arch>& b, const Register<float, Arch>& c)
+{
+    return fma(a, b, -c);
+}
+
+template <ArchType Arch>
+SSIMD_INLINE enable_if_neon<Arch> fnma(const Register<float, Arch>& a, const Register<float, Arch>& b, const Register<float, Arch>& c)
+{
+    return { vfmsq_f32(c.data, a.data, b.data) };
+}
+
+template <ArchType Arch>
+SSIMD_INLINE enable_if_neon<Arch> fnms(const Register<float, Arch>& a, const Register<float, Arch>& b, const Register<float, Arch>& c)
+{
+    return -fma(a, b, c);
+}
+
+
 // ---Rounding---
 
 template <ArchType Arch>

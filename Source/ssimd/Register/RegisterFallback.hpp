@@ -73,6 +73,29 @@ SSIMD_INLINE Register<float, fallback> neg(const Register<float, fallback>& reg)
 }
 
 
+// ---Fused---
+
+SSIMD_INLINE Register<float, fallback> fma(const Register<float, fallback>& a, const Register<float, fallback>& b, const Register<float, fallback>& c)
+{
+    return { a * b + c };
+}
+
+SSIMD_INLINE Register<float, fallback> fms(const Register<float, fallback>& a, const Register<float, fallback>& b, const Register<float, fallback>& c)
+{
+    return { a * b - c };
+}
+
+SSIMD_INLINE Register<float, fallback> fnma(const Register<float, fallback>& a, const Register<float, fallback>& b, const Register<float, fallback>& c)
+{
+    return { -a * b + c };
+}
+
+SSIMD_INLINE Register<float, fallback> fnms(const Register<float, fallback>& a, const Register<float, fallback>& b, const Register<float, fallback>& c)
+{
+    return { -a * b - c };
+}
+
+
 // ---Rounding---
 
 SSIMD_INLINE Register<float, fallback> round(const Register<float, fallback>& reg)

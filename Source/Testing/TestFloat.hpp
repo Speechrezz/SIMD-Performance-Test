@@ -49,7 +49,7 @@ bool testFloatArithmetic()
 	fillArray(desired.data(), size);
 
 	auto reg1 = Register::loadAligned(input1);
-	auto reg2 = Register::loadAligned(input1);
+	auto reg2 = Register::loadAligned(input2);
 
 	// Vector-scalar arithmetic
 
@@ -111,6 +111,47 @@ bool testFloatUnary()
 	EXPECT_EQ_REG(desired, -reg, "neg");
 
 	return true;
+}
+
+template<ArchType archType>
+bool testFloatFused()
+{
+    using Register = Register<float, archType>;
+
+    constexpr auto align = Register::alignment();
+    constexpr auto size = Register::size();
+
+    alignas(align) float input1[size];
+    alignas(align) float input2[size];
+    alignas(align) float input3[size];
+    std::vector<float> desired(size);
+
+    fillArray(input1, size);
+    fillArray(input2, size);
+    fillArray(input3, size);
+    fillArray(desired.data(), size);
+
+    auto reg1 = Register::loadAligned(input1);
+    auto reg2 = Register::loadAligned(input2);
+    auto reg3 = Register::loadAligned(input3);
+
+    for (size_t i = 0; i < size; ++i)
+        desired[i] = input1[i] * input2[i] + input3[i];
+    EXPECT_EQ_REG(desired, fma(reg1, reg2, reg3), "fma");
+
+    for (size_t i = 0; i < size; ++i)
+        desired[i] = input1[i] * input2[i] - input3[i];
+    EXPECT_EQ_REG(desired, fms(reg1, reg2, reg3), "fms");
+
+    for (size_t i = 0; i < size; ++i)
+        desired[i] = -input1[i] * input2[i] + input3[i];
+    EXPECT_EQ_REG(desired, fnma(reg1, reg2, reg3), "fnma");
+
+    for (size_t i = 0; i < size; ++i)
+        desired[i] = -input1[i] * input2[i] - input3[i];
+    EXPECT_EQ_REG(desired, fnms(reg1, reg2, reg3), "fnms");
+
+    return true;
 }
 
 template<ArchType archType>

@@ -115,6 +115,7 @@ bool runTests()
     result = result && ssimd::test::testFloatLoading<archType>();
     result = result && ssimd::test::testFloatArithmetic<archType>();
     result = result && ssimd::test::testFloatUnary<archType>();
+    result = result && ssimd::test::testFloatFused<archType>();
     result = result && ssimd::test::testFloatRounding<archType>();
     
     if (result)
