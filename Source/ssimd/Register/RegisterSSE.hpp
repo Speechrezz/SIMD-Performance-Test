@@ -69,6 +69,15 @@ SSIMD_INLINE Register<float, sse> div(const Register<float, sse>& reg1, const Re
 }
 
 
+// ---Unary---
+
+SSIMD_INLINE Register<float, sse> neg(const Register<float, sse>& reg)
+{
+	__m128 mask = _mm_set1_ps(-0.0f);
+	return { _mm_xor_ps(reg.data, mask) };
+}
+
+
 // ---Rounding---
 
 SSIMD_INLINE Register<float, sse> round(const Register<float, sse>& reg)

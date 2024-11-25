@@ -69,6 +69,14 @@ SSIMD_INLINE Register<float, neon> div(const Register<float, neon>& reg1, const 
 }
 
 
+// ---Unary---
+
+SSIMD_INLINE Register<float, neon> neg(const Register<float, neon>& reg)
+{
+	return { vnegq_f32(reg.data) };
+}
+
+
 // ---Rounding---
 
 SSIMD_INLINE Register<float, neon> round(const Register<float, neon>& reg)

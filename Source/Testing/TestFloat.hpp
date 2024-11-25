@@ -91,6 +91,29 @@ bool testFloatArithmetic()
 }
 
 template<ArchType archType>
+bool testFloatUnary()
+{
+	using Register = Register<float, archType>;
+
+	constexpr auto align = Register::alignment();
+	constexpr auto size = Register::size();
+
+	alignas(align) float input[size];
+	std::vector<float> desired(size);
+
+	fillArray(input, size);
+	fillArray(desired.data(), size);
+
+	auto reg = Register::loadAligned(input);
+
+	for (size_t i = 0; i < size; ++i)
+		desired[i] = -input[i];
+	EXPECT_EQ_REG(desired, neg(reg), "neg");
+
+	return true;
+}
+
+template<ArchType archType>
 bool testFloatRounding()
 {
 	using Register = Register<float, archType>;

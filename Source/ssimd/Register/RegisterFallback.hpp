@@ -65,6 +65,14 @@ SSIMD_INLINE Register<float, fallback> div(const Register<float, fallback>& reg1
 }
 
 
+// ---Unary---
+
+SSIMD_INLINE Register<float, fallback> neg(const Register<float, fallback>& reg)
+{
+	return { -reg.data };
+}
+
+
 // ---Rounding---
 
 SSIMD_INLINE Register<float, fallback> round(const Register<float, fallback>& reg)
