@@ -45,25 +45,31 @@ struct Register<float, neon> : public RegisterOverloads<float, neon>
 	}
 };
 
+template <ArchType Arch>
+using enable_if_neon = typename std::enable_if<Arch == neon, Register<float, Arch>>::type;
 
 // ---Arithmetic---
 
-SSIMD_INLINE Register<float, neon> add(const Register<float, neon>& reg1, const Register<float, neon>& reg2)
+template <ArchType Arch>
+SSIMD_INLINE enable_if_neon<Arch> add(const Register<float, Arch>& reg1, const Register<float, Arch>& reg2)
 {
 	return { vaddq_f32(reg1.data, reg2.data) };
 }
 
-SSIMD_INLINE Register<float, neon> sub(const Register<float, neon>& reg1, const Register<float, neon>& reg2)
+template <ArchType Arch>
+SSIMD_INLINE enable_if_neon<Arch> sub(const Register<float, Arch>& reg1, const Register<float, Arch>& reg2)
 {
 	return { vsubq_f32(reg1.data, reg2.data) };
 }
 
-SSIMD_INLINE Register<float, neon> mul(const Register<float, neon>& reg1, const Register<float, neon>& reg2)
+template <ArchType Arch>
+SSIMD_INLINE enable_if_neon<Arch> mul(const Register<float, Arch>& reg1, const Register<float, Arch>& reg2)
 {
 	return { vmulq_f32(reg1.data, reg2.data) };
 }
 
-SSIMD_INLINE Register<float, neon> div(const Register<float, neon>& reg1, const Register<float, neon>& reg2)
+template <ArchType Arch>
+SSIMD_INLINE enable_if_neon<Arch> div(const Register<float, Arch>& reg1, const Register<float, Arch>& reg2)
 {
 	return { vdivq_f32(reg1.data, reg2.data) };
 }
@@ -71,7 +77,8 @@ SSIMD_INLINE Register<float, neon> div(const Register<float, neon>& reg1, const 
 
 // ---Unary---
 
-SSIMD_INLINE Register<float, neon> neg(const Register<float, neon>& reg)
+template <ArchType Arch>
+SSIMD_INLINE enable_if_neon<Arch> neg(const Register<float, Arch>& reg)
 {
 	return { vnegq_f32(reg.data) };
 }
@@ -79,22 +86,26 @@ SSIMD_INLINE Register<float, neon> neg(const Register<float, neon>& reg)
 
 // ---Rounding---
 
-SSIMD_INLINE Register<float, neon> round(const Register<float, neon>& reg)
+template <ArchType Arch>
+SSIMD_INLINE enable_if_neon<Arch> round(const Register<float, Arch>& reg)
 {
 	return { vrndnq_f32(reg.data) };
 }
 
-SSIMD_INLINE Register<float, neon> ceil(const Register<float, neon>& reg)
+template <ArchType Arch>
+SSIMD_INLINE enable_if_neon<Arch> ceil(const Register<float, Arch>& reg)
 {
 	return { vrndpq_f32(reg.data) };
 }
 
-SSIMD_INLINE Register<float, neon> floor(const Register<float, neon>& reg)
+template <ArchType Arch>
+SSIMD_INLINE enable_if_neon<Arch> floor(const Register<float, Arch>& reg)
 {
 	return { vrndmq_f32(reg.data) };
 }
 
-SSIMD_INLINE Register<float, neon> trunc(const Register<float, neon>& reg)
+template <ArchType Arch>
+SSIMD_INLINE enable_if_neon<Arch> trunc(const Register<float, Arch>& reg)
 {
 	return { vrndq_f32(reg.data) };
 }
@@ -102,7 +113,8 @@ SSIMD_INLINE Register<float, neon> trunc(const Register<float, neon>& reg)
 
 // ---Trig---
 
-SSIMD_INLINE Register<float, neon> sin(const Register<float, neon>& reg)
+template <ArchType Arch>
+SSIMD_INLINE enable_if_neon<Arch> sin(const Register<float, Arch>& reg)
 {
 	return generic::sin(reg);
 }

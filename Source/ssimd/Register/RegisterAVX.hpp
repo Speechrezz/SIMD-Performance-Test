@@ -45,6 +45,8 @@ struct Register<float, avx> : public RegisterOverloads<float, avx>
 	}
 };
 
+//template <ArchType Arch>
+//using enable_if_avx = typename std::enable_if<Arch == avx || Arch == avx2 || Arch == fma>::type;
 
 // ---Arithmetic---
 

@@ -143,7 +143,6 @@ int main()
     //benchmarkVectorSine();
 
     runAllTests();
-    //testSsimdAll();
 
     return 0;
 }
