@@ -136,6 +136,15 @@ bool testFloatFused()
     auto reg3 = Register::loadAligned(input3);
 
     for (size_t i = 0; i < size; ++i)
+    {
+        input2[i] += 1.f;
+        input3[i] += 4.f;
+    }
+
+    reg2 = reg2 + 1.f;
+    reg3 = reg3 + 4.f;
+
+    for (size_t i = 0; i < size; ++i)
         desired[i] = input1[i] * input2[i] + input3[i];
     EXPECT_EQ_REG(desired, fma(reg1, reg2, reg3), "fma");
 
