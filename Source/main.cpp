@@ -2,8 +2,10 @@
 #include <vector>
 #include <typeinfo>
 
-#include "VectorSineTest.h"
-#include "Timer.h"
+#include "VectorSineTest.hpp"
+#include "Timer.hpp"
+#include "Testing/Testing.hpp"
+#include "Testing/TestFloat.hpp"
 
 constexpr size_t vectorLength = 1024;
 constexpr size_t numIterations = 2000000;
@@ -103,77 +105,34 @@ void printRegister(const Register& reg)
     std::cout << arr[Register::size() - 1] << "]\n";
 }
 
-template<class Register>
-void testSsimd()
+template<ssimd::ArchType archType>
+bool runTests()
 {
-    constexpr float pi = 3.14159265358979323846f;
-    constexpr auto align = Register::alignment();
-    constexpr auto size = Register::size();
+    bool result = true;
 
-    alignas(align) float input1[size];
-    alignas(align) float input2[size];
-    alignas(align) float output[size];
-    fillArray(input1, size);
-    fillArray(input2, size);
+    std::cout << "\n---Testing arch:" << ssimd::archToString[archType] << "---\n";
 
-    auto in1 = Register::loadAligned(input1);
-    auto in2 = Register::loadAligned(input2);
+    result = result && ssimd::test::testFloatLoading<archType>();
+    result = result && ssimd::test::testFloatArithmetic<archType>();
+    result = result && ssimd::test::testFloatRounding<archType>();
+    
+    if (result)
+        std::cout << "All tests PASSED.\n";
 
-    // Arithmetic
-
-    std::cout << "in1 + in2 = ";
-    printRegister(in1 + in2);
-
-    std::cout << "in1 - in2 = ";
-    printRegister(in1 - in2);
-
-    std::cout << "in1 * in2 = ";
-    printRegister(in1 * in2);
-
-    std::cout << "in1 / (in2 + 1.f) = ";
-    printRegister(in1 / (in2 + 1.f));
-
-    // Rounding
-
-    std::cout << "\nbroadcast(3.6f)          = ";
-    printRegister(Register::broadcast(3.6f));
-    auto in3 = 3.6f * (in1 - 2.f);
-    std::cout << "in3 = 3.6f * (in1 - 2.f) = ";
-    printRegister(in3);
-
-    std::cout << "round(in3)               = ";
-    printRegister(ssimd::round(in3));
-
-    std::cout << "ceil(in3)                = ";
-    printRegister(ssimd::ceil(in3));
-
-    std::cout << "floor(in3)               = ";
-    printRegister(ssimd::floor(in3));
-
-    std::cout << "trunc(in3)               = ";
-    printRegister(ssimd::trunc(in3));
-
-    // Trig
-
-    std::cout << "\nsin(in1 * 0.25f * pi) = ";
-    printRegister(ssimd::sin(in1 * 0.25f * pi));
+    return true;
 }
 
-void testSsimdAll()
+void runAllTests()
 {
-    std::cout << "\n\n---Fallback---\n\n";
-    testSsimd<ssimd::Register<float, ssimd::fallback>>();
+    runTests<ssimd::fallback>();
 #ifdef SSIMD_AVX
-    std::cout << "\n\n---AVX---\n\n";
-    testSsimd<ssimd::Register<float, ssimd::avx>>();
+    runTests<ssimd::avx>();
 #endif
 #ifdef SSIMD_SSE
-    std::cout << "\n\n---SSE---\n\n";
-    testSsimd<ssimd::Register<float, ssimd::sse>>();
+    runTests<ssimd::sse>();
 #endif
 #ifdef SSIMD_NEON
-    std::cout << "\n\n---Neon---\n\n";
-    testSsimd<ssimd::Register<float, ssimd::neon>>();
+    runTests<ssimd::neon>();
 #endif
 }
 
@@ -182,7 +141,8 @@ int main()
     //benchmarkVectorAdd();
     //benchmarkVectorSine();
 
-    testSsimdAll();
+    runAllTests();
+    //testSsimdAll();
 
     return 0;
 }

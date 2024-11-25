@@ -1,5 +1,7 @@
 #pragma once
 
+#include <string>
+#include <map>
 #include "../Core/Config.hpp"
 #include "../Generic/GenericTrig.hpp"
 
@@ -9,6 +11,15 @@ namespace ssimd
 enum ArchType
 {
 	fallback, sse, avx, neon, wasm
+};
+
+std::map<ArchType, std::string> archToString
+{
+	{ fallback, "Fallback" },
+	{ sse, "SSE" },
+	{ avx, "AVX" },
+	{ neon, "NEON" },
+	{ wasm, "WASM" }
 };
 
 template<typename DataType, ArchType archType>
