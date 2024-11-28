@@ -80,6 +80,29 @@ SSIMD_INLINE Register<float, avx> neg(const Register<float, avx>& reg)
 }
 
 
+// ---Fused---
+
+SSIMD_INLINE Register<float, avx> fma(const Register<float, avx>& a, const Register<float, avx>& b, const Register<float, avx>& c)
+{
+	return generic::fma(a, b, c);
+}
+
+SSIMD_INLINE Register<float, avx> fms(const Register<float, avx>& a, const Register<float, avx>& b, const Register<float, avx>& c)
+{
+	return generic::fms(a, b, c);
+}
+
+SSIMD_INLINE Register<float, avx> fnma(const Register<float, avx>& a, const Register<float, avx>& b, const Register<float, avx>& c)
+{
+	return generic::fnma(a, b, c);
+}
+
+SSIMD_INLINE Register<float, avx> fnms(const Register<float, avx>& a, const Register<float, avx>& b, const Register<float, avx>& c)
+{
+	return generic::fnms(a, b, c);
+}
+
+
 // ---Rounding---
 
 SSIMD_INLINE Register<float, avx> round(const Register<float, avx>& reg)

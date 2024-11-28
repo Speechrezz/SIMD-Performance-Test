@@ -3,7 +3,7 @@
 #include <string>
 #include <map>
 #include "../Core/Config.hpp"
-#include "../Generic/GenericTrig.hpp"
+#include "../Core/GenericImpl.hpp"
 
 namespace ssimd
 {
