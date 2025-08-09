@@ -6,6 +6,7 @@
 
 #include "xsimd/xsimd.hpp"
 #include "ssimd/ssimd.hpp"
+#include "mathfun/avx_mathfun.h"
 
 void fillArray(float* array, size_t length)
 {
@@ -37,6 +38,16 @@ void vectorSineAvx(const float* input, float* output, size_t length)
     {
         __m256 in = _mm256_load_ps(input + i);
         in = _mm256_sin_ps(in);
+        _mm256_store_ps(output + i, in);
+    }
+}
+
+void vectorSineMathfun(const float* input, float* output, size_t length)
+{
+    for (size_t i = 0; i < length; i += 8)
+    {
+        __m256 in = _mm256_load_ps(input + i);
+        in = sin256_ps(in);
         _mm256_store_ps(output + i, in);
     }
 }

@@ -63,6 +63,11 @@ void benchmarkVectorSine()
     for (size_t i = 0; i < numIterations; ++i)
         vectorSineAvx(input, output, vectorLength);
     std::cout << "AVX Intrinsics: " << timer.stop().elapsed() << " (sec), output[1]: " << output[1] << "\n";
+
+    timer.start();
+    for (size_t i = 0; i < numIterations; ++i)
+        vectorSineMathfun(input, output, vectorLength);
+    std::cout << "AVX Mathfun: " << timer.stop().elapsed() << " (sec), output[1]: " << output[1] << "\n";
 #elif defined(__APPLE__)
     timer.start();
     for (size_t i = 0; i < numIterations; ++i)
@@ -140,8 +145,8 @@ void runAllTests()
 
 int main()
 {
-    //benchmarkVectorAdd();
-    //benchmarkVectorSine();
+    benchmarkVectorAdd();
+    benchmarkVectorSine();
 
     runAllTests();
 
